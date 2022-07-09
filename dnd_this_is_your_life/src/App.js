@@ -1,7 +1,9 @@
+import CharacterCreator from "./component/CharacterCreator";
+
 function App() {
   return (
     <div>
-      Hello World
+      <CharacterCreator />
     </div>
   );
 }
