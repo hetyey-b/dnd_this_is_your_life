@@ -6,6 +6,7 @@ import {randomRace} from '../data/races';
 import { randomBirthplace } from '../data/birthplaces';
 import rollDice from '../util/rollDice';
 import generateCharacter from '../util/generateCharacter';
+import generateSiblings from '../util/generateSiblings';
 
 const CharacterCreator = () => {
 	const [character, setCharacter] = React.useState({
@@ -13,7 +14,7 @@ const CharacterCreator = () => {
 		alignment: "",
 		parents: [],
 		birthplace: "",
-		siblings: "",
+		siblings: [],
 		family: "",
 		absentParent: "",
 		familyLifestyle: "",
@@ -26,7 +27,7 @@ const CharacterCreator = () => {
 		elements={[
 			{
 				title: "Origins",
-				content: <div className="flex container space-x-1 space-y-1">
+				content: <div className="grid grid-cols-5 gap-4">
 					<Card
 						title="Race"
 						content={
@@ -43,6 +44,7 @@ const CharacterCreator = () => {
 					/>
 					<Card 
 						title="Parents"
+						width={2}
 						content={
 							<div className="text-center">
 								<p>
@@ -50,7 +52,7 @@ const CharacterCreator = () => {
 									character.parents.length > 0 ?
 										character.parents.map(parent => (
 											<div>
-												{parent.name} - {parent.relationship}, {parent.alignment}, {parent.attitude}
+												{parent.name} - {parent.relationship}, {parent.alignment}, {parent.attitude}, {parent.occupation} {parent.chClass}
 											</div>
 										))
 									:
@@ -93,6 +95,38 @@ const CharacterCreator = () => {
 								/>
 							</div>
 						}
+					/>
+					<Card
+						title={`Siblings - ${character.siblings.length}`}
+						width={4}
+						content={
+							<div className="text-center">
+								<ul>
+									{
+										character.siblings.length > 0 ?
+										character.siblings.map(sibling => (
+											<li>
+												<div>
+													<span className="block">
+														{sibling.name} - {sibling.relationship}, {sibling.alignment}, {sibling.attitude}, {sibling.occupation} {sibling.chClass}- {sibling.status} {sibling.causeOfDeath}
+													</span>
+												</div>
+											</li>
+										))
+										:
+										"Only child"
+									}
+								</ul>
+								<RandomButton 
+									onClick={() => {
+										setCharacter({...character, siblings: generateSiblings(character.race)});
+									}}
+								/>
+							</div>
+						}
+					/>
+					<Card
+						title=""
 					/>
 				</div>,
 			},
